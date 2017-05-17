@@ -300,7 +300,7 @@ L.Control.StyledLayerControl = L.Control.Layers.extend({
     },
 
     _addItem: function(obj) {
-        var label = document.createElement('div'),
+        var label = document.createElement('label'),
             input,
             checked = this._map.hasLayer(obj.layer),
             container;
