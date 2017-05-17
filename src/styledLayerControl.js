@@ -370,7 +370,7 @@ L.Control.StyledLayerControl = L.Control.Layers.extend({
             var s_type_exclusive = this.options.exclusive ? ' type="radio" ' : ' type="checkbox" ';
 
             inputElement = '<input id="ac' + obj.group.id + '" name="accordion-1" class="menu" ' + s_expanded + s_type_exclusive + '/>';
-            inputLabel = '<label for="ac' + obj.group.id + '">' + obj.group.name + '</label>';
+            inputLabel = '<label class="group-label" for="ac' + obj.group.id + '">' + obj.group.name + '</label>';
 
             article = document.createElement('article');
             article.className = 'ac-large';
