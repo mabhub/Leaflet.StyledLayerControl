@@ -404,6 +404,19 @@ L.Control.StyledLayerControl = L.Control.Layers.extend({
                 this._map.addLayer(obj.layer);
             }
 
+            if (obj.layer.StyledLayerControl.icon) {
+                var icon       = obj.layer.StyledLayerControl.icon;
+                var layer_icon = document.createElement('span');
+
+                layer_icon.className = icon.className || 'icon';
+
+                if (icon.style) {
+                    layer_icon.setAttribute('style', icon.style);
+                }
+
+                label.insertBefore(layer_icon, label.firstChild);
+            }
+
         }
 
 
