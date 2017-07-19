@@ -127,7 +127,7 @@ L.Control.StyledLayerControl = L.Control.Layers.extend({
         this.changeGroup(group_Name, false)
     },
 
-    changeGroup: function(group_Name, select) {
+    changeGroup: function(group_Name, select, forceUpdate) {
         for (group in this._groupList) {
             if (this._groupList[group].groupName == group_Name) {
                 for (layer in this._layers) {
@@ -142,7 +142,9 @@ L.Control.StyledLayerControl = L.Control.Layers.extend({
                 break;
             }
         }
-        this._update();
+        if (forceUpdate !== false) {
+          this._update();
+        }
     },
 
 
