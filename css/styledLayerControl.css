@@ -144,5 +144,32 @@
 	border-radius: 5px;
 }
 
+.leaflet-control-layers-list .toggler {
+	background: transparent;
+	padding: 5px;
+	margin: 0 0 0 5px;
+	border: none;
+}
 
+.leaflet-control-layers-list .toggler::after {
+	content: '';
+	border-radius: 50%;
+	display: block;
+	width: 12px;
+	height: 12px;
 
+	border: 1px solid transparent;
+	background: currentColor;
+	opacity: .5;
+}
+
+.leaflet-control-layers-list .toggler.none::after {
+	border-color: currentColor;
+	background-color: transparent;
+	opacity: 1;
+}
+.leaflet-control-layers-list .toggler.all::after {
+	border-color: currentColor;
+	background-color: currentColor;
+	opacity: 1;
+}
