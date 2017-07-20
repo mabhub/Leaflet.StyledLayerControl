@@ -261,13 +261,27 @@ L.Control.StyledLayerControl = L.Control.Layers.extend({
                 name: group.groupName,
                 id: groupId,
                 expanded: group.expanded,
-                removable: group.removable
+                removable: group.removable,
+                toggler: group.toggler
             };
         }
 
         if (this.options.autoZIndex && layer.setZIndex) {
             this._lastZIndex++;
             layer.setZIndex(this._lastZIndex);
+        }
+    },
+
+    _updateToggler: function(obj) {
+        if (obj.group.toggler) {
+            var domGroup   = this._domGroups[obj.group.id];
+            var totalCB    = domGroup.querySelectorAll('input:not(.menu)').length;
+            var checked    = domGroup.querySelectorAll('input:not(.menu):checked').length;
+            var notChecked = domGroup.querySelectorAll('input:not(.menu):not(:checked)').length;
+            var toggler    = domGroup.querySelector('.toggler');
+
+            toggler.classList.toggle('all',  totalCB === checked);
+            toggler.classList.toggle('none', totalCB === notChecked);
         }
     },
 
@@ -293,6 +307,8 @@ L.Control.StyledLayerControl = L.Control.Layers.extend({
             this._addItem(obj);
             overlaysPresent = overlaysPresent || obj.overlay;
             baseLayersPresent = baseLayersPresent || !obj.overlay;
+
+            this._updateToggler(obj);
         }
 
     },
@@ -319,6 +335,8 @@ L.Control.StyledLayerControl = L.Control.Layers.extend({
         if (type) {
             this._map.fire(type, obj);
         }
+
+        this._updateToggler(obj);
     },
 
     _onZoomEnd: function(e) {
@@ -441,8 +459,9 @@ L.Control.StyledLayerControl = L.Control.Layers.extend({
             // verify if type is exclusive
             var s_type_exclusive = this.options.exclusive ? ' type="radio" ' : ' type="checkbox" ';
 
+            groupToggler = obj.group.toggler ? '<button type="button" class="toggler"></button>' : '';
             inputElement = '<input id="ac' + obj.group.id + '" name="accordion-1" class="menu" ' + s_expanded + s_type_exclusive + '/>';
-            inputLabel = '<label class="group-label" for="ac' + obj.group.id + '">' + obj.group.name + '</label>';
+            inputLabel = '<label class="group-label" for="ac' + obj.group.id + '">' + obj.group.name + groupToggler + '</label>';
 
             article = document.createElement('article');
             article.className = 'ac-large';
@@ -528,6 +547,19 @@ L.Control.StyledLayerControl = L.Control.Layers.extend({
             }
 
             container.appendChild(groupContainer);
+
+            var that = this;
+            if (groupToggler) {
+                var toggler = groupContainer.querySelector('.toggler')
+                L.DomEvent.on(toggler, 'click', function () {
+                    var checkboxes    = groupContainer.querySelectorAll('input:not(.menu)');
+                    var someUnchecked = [].some.call(checkboxes, function(el) { return el.checked === false; });
+
+                    that.changeGroup(obj.group.name, someUnchecked, false);
+
+                    return false;
+                });
+            }
 
             this._domGroups[obj.group.id] = groupContainer;
         } else {
