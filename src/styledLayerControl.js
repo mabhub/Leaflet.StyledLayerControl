@@ -402,7 +402,7 @@ L.Control.StyledLayerControl = L.Control.Layers.extend({
 
             groupToggler = obj.group.toggler ? '<button type="button" class="toggler"></button>' : '';
             inputElement = '<input id="ac' + obj.group.id + '" name="accordion-1" class="menu" ' + s_expanded + s_type_exclusive + '/>';
-            inputLabel = '<label class="group-label" for="ac' + obj.group.id + '">' + obj.group.name + groupToggler + '</label>';
+            inputLabel = '<label class="group-label" for="ac' + obj.group.id + '">' + groupToggler + obj.group.name + '</label>';
 
             article = document.createElement('article');
             article.className = 'ac-large';
