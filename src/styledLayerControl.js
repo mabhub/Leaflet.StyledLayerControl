@@ -100,7 +100,7 @@ L.Control.StyledLayerControl = L.Control.Layers.extend({
     	this.changeGroup( group_Name, false)
     },
 
-    changeGroup: function(group_Name, select, forceUpdate){
+    changeGroup: function(group_Name, select){ 
     	for (group in this._groupList) {
             if (this._groupList[group].groupName == group_Name) {
                 for (layer in this._layers) {
@@ -115,9 +115,7 @@ L.Control.StyledLayerControl = L.Control.Layers.extend({
                 break;
             }
         }
-        if (forceUpdate !== false) {
-            this._update();
-        }
+        this._update();
     },
 
 
@@ -404,7 +402,7 @@ L.Control.StyledLayerControl = L.Control.Layers.extend({
 
             groupToggler = obj.group.toggler ? '<button type="button" class="toggler"></button>' : '';
             inputElement = '<input id="ac' + obj.group.id + '" name="accordion-1" class="menu" ' + s_expanded + s_type_exclusive + '/>';
-            inputLabel = '<label class="group-label" for="ac' + obj.group.id + '">' + obj.group.name + groupToggler + '</label>';
+            inputLabel = '<label class="group-label" for="ac' + obj.group.id + '">' + groupToggler + obj.group.name + '</label>';
 
             article = document.createElement('article');
             article.className = 'ac-large';
@@ -426,7 +424,8 @@ L.Control.StyledLayerControl = L.Control.Layers.extend({
                     var checkboxes    = groupContainer.querySelectorAll('input:not(.menu)');
                     var someUnchecked = [].some.call(checkboxes, function(el) { return el.checked === false; });
 
-                    that.changeGroup(obj.group.name, someUnchecked, false);
+                    [].forEach.call(checkboxes, (cb) => cb.checked = someUnchecked);
+                    that._onInputClick.call(that);
 
                     return false;
                 });
