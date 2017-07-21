@@ -424,7 +424,9 @@ L.Control.StyledLayerControl = L.Control.Layers.extend({
                     var checkboxes    = groupContainer.querySelectorAll('input:not(.menu)');
                     var someUnchecked = [].some.call(checkboxes, function(el) { return el.checked === false; });
 
-                    [].forEach.call(checkboxes, (cb) => cb.checked = someUnchecked);
+                    [].forEach.call(checkboxes, function (cb) {
+                        return cb.checked = someUnchecked;
+                    });
                     that._onInputClick.call(that);
 
                     return false;
