@@ -121,6 +121,10 @@
     cursor: pointer;
 }
 
+.ac-container article label.menu-item-checkbox {
+    display: block;
+}
+
 .ac-container .group-toggle-container {
     text-align: right;
     margin-right: 3px;
